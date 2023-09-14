@@ -32,6 +32,7 @@ flatpickr(selector.date, {
       };
     },
   });
+
   const dateChoose = new Date(selector.date.value);
   const dateFinish = dateChoose - Date.now();
 
@@ -45,11 +46,12 @@ flatpickr(selector.date, {
 
     selector.btnStart.disabled = true;
     selector.date.disabled = true;
+    
     timerId = setInterval(() => {
 
       const dateChoose = new Date(selector.date.value);
-      const finishTime = dateChoose - Date.now();
-      const { days, hours, minutes, seconds } = convertMs(finishTime);
+      const dateFinish = dateChoose - Date.now();
+      const { days, hours, minutes, seconds } = convertMs(dateFinish);
       
       selector.days.textContent = addLeadingZero(days);
       selector.hours.textContent = addLeadingZero(hours);
