@@ -22,33 +22,27 @@ flatpickr(selector.date, {
     defaultDate: new Date(),
     minuteIncrement: 1,
     onClose(selectedDates) {
+
       if (selectedDates[0] <= Date.now()) {
-        Notiflix.Notify.warning('Please choose a date in the future');
+        Notiflix.Notify.failure(`Please choose a date in the future`);
         
       } else {
         selector.btnStart.disabled = false;
-        Notiflix.Notify.info('Fulfilled');
+        Notiflix.Notify.success('Fulfilled');
         
       };
     },
   });
 
-  const dateChoose = new Date(selector.date.value);
-  const dateFinish = dateChoose - Date.now();
-
-  console.log(dateChoose);
-  console.log(Date.now());
-  console.log(dateFinish);
 
   selector.btnStart.addEventListener('click', startClickBtn); 
   
   function startClickBtn() {
 
     selector.btnStart.disabled = true;
-    selector.date.disabled = true;
-    
+   
     timerId = setInterval(() => {
-
+      
       const dateChoose = new Date(selector.date.value);
       const dateFinish = dateChoose - Date.now();
       const { days, hours, minutes, seconds } = convertMs(dateFinish);
@@ -57,9 +51,13 @@ flatpickr(selector.date, {
       selector.hours.textContent = addLeadingZero(hours);
       selector.minutes.textContent = addLeadingZero(minutes);
       selector.seconds.textContent = addLeadingZero(seconds);
-  }, 1000)
+
+    if (dateFinish < 1000) {
+      clearInterval(timerId);
+    }
+  }, 1000);
 }
-  
+
   
 
   function convertMs(ms) {
@@ -84,3 +82,4 @@ flatpickr(selector.date, {
   function addLeadingZero(value) {
       return `${value}`.padStart(2, '0');
     }
+
