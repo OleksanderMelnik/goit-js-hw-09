@@ -10,18 +10,15 @@ formEl.addEventListener('submit', callCreatePromise);
 
 function callCreatePromise(e) {
   e.preventDefault();
-
+  
   const { delay, step, amount } = e.currentTarget.elements;
 
   if (delay.value < 0 || step.value < 0 || amount.value <= 0) {
     Notiflix.Notify.failure(`❌ ENTER a number greater than ZERO`);
-  } else {
-    for (let i = 0; i < amount.value; i++) {
-      let position = i + 1;
-      const firstDelay = Number(delay.value) + step.value * i;
-
-      // console.log(typeof firstDelay);
-      // console.log(typeof position);
+  } else 
+  {
+    for (let position = 1; position < amount.value; position += 1) {
+      const firstDelay = Number(delay.value) + step.value * position;
 
       createPromise(position, firstDelay)
         .then(({ position, delay }) => {
